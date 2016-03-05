@@ -15,7 +15,7 @@ $db_username = 'root';
 // not set a password for the root user.  If you are in the database
 // class and installed MySQL separatly from XAMPP, you may have a
 // password set.  If that is the case, set it here.
-$db_password = '';
+$db_password = 'admin';
 
 // Typically you want to specify what database to use.
 // For this PHP script, we will use the `classicmodels` database.
@@ -48,14 +48,14 @@ if ($mysql_connection->connect_errno) {
 //
 // For your query, you will need to join the customers and employees
 // tables together.
-$query_result = $mysql_connection->query("SELECT your query here");
+$query_result = $mysql_connection->query("SELECT `country`, `customerName`, `firstName`, `lastName` FROM `customers` INNER JOIN `employees` ON `customers`.`salesRepEmployeeNumber`=`employees`.`employeeNumber`ORDER BY `country`, `firstName`;");
 
 // Make sure there wasn't an error with the query.
 if ($query_result !== false) {
     // Fetch each row of the query result as an associative array.
     // http://php.net/manual/en/mysqli-result.fetch-assoc.php
     while($row_array = $query_result->fetch_assoc()) {
-	    // Your output goes here
+        printf ("%s (%s)\n", $row_array["customerName"], $row_array["country"], $row_array["firstName"], $row_array["lastName"]);"\n";
     }
 
     // We're done with the query result set, so free it.
